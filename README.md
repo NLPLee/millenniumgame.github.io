@@ -13,7 +13,10 @@ get(options: { key: string; defaultValue: string; }) => Promise<any>
 
 | Param         | Type                                                |
 | ------------- | --------------------------------------------------- |
-| **`options`** | <code>{ key: string; defaultValue: string; }</code> |
+| **`list`** | List<String> |
+| **`width`** | double |
+| **`height`** | double |
+| **`onSelectedItemChanged`** | ValueChanged(int)|
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 
