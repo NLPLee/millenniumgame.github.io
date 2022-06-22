@@ -1,6 +1,8 @@
 # Components
 
-## cupertino import 
+## cupertino 
+
+### import 
 ```dart
 import 'package:laudyou_app/screens/components/cupertino.dart';
 ```
@@ -14,7 +16,7 @@ import 'package:laudyou_app/screens/components/cupertino.dart';
 | **`height`** | double | 높이 |
 | **`onSelectedItemChanged`** | ValueChanged(int)| 선택하 인덱스 콜백 |
   
-### Example
+### example
 ```dart
 Cupertino(
   width: 200,
