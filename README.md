@@ -7,16 +7,15 @@ import 'package:laudyou_app/screens/components/cupertino.dart';
 
 ### paramter(...)
 
+| Param         | Type                                                | Contents                                            |
+| ------------- | --------------------------------------------------- | --------------------------------------------------- |
+| **`list`** | List<String> | 콤보박스 노출 리스트 |
+| **`width`** | double | 넓이 |
+| **`height`** | double | 높이 |
+| **`onSelectedItemChanged`** | ValueChanged(int)| index callback |
+  
+### Example
+  
 ```dart
-get(options: { key: string; defaultValue: string; }) => Promise<any>
+import 'package:laudyou_app/screens/components/cupertino.dart';
 ```
-
-| Param         | Type                                                |
-| ------------- | --------------------------------------------------- |
-| **`list`** | List<String> |
-| **`width`** | double |
-| **`height`** | double |
-| **`onSelectedItemChanged`** | ValueChanged(int)|
-
-**Returns:** <code>Promise&lt;any&gt;</code>
-
