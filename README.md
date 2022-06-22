@@ -31,4 +31,6 @@ Cupertino(
   }
 )
 ```
-<img src = "https://user-images.githubusercontent.com/8513331/175084039-bde1d774-3ac6-4544-a3dd-8ebc6c350adf.png" width="20%" height="20%">
+<p align="center">
+  <img src = "https://user-images.githubusercontent.com/8513331/175084039-bde1d774-3ac6-4544-a3dd-8ebc6c350adf.png" width="20%" height="20%">
+</p>
