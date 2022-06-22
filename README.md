@@ -31,6 +31,4 @@ Cupertino(
   }
 )
 ```
-
-![Simulator Screen Shot - iPhone 13 mini - 2022-06-23 at 01 21 53](https://user-images.githubusercontent.com/8513331/175084039-bde1d774-3ac6-4544-a3dd-8ebc6c350adf.png){: width="30%" height="30%"}
-
+<img src = "https://user-images.githubusercontent.com/8513331/175084039-bde1d774-3ac6-4544-a3dd-8ebc6c350adf.png" width="30%" height="30%">
