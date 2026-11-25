@@ -3,7 +3,7 @@
   "platforms": {
     "ios": {
       "version": "1.4.0",
-      "build": 64,
+      "build": 65,
       "installUrl": "https://nlplee.github.io/millenniumgame.github.io/musico/"
     }
   }
