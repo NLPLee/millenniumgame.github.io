@@ -1,1 +1,113 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>AiO iPhone 설치</title><style>body{font:17px -apple-system,sans-serif;max-width:480px;margin:70px auto;padding:24px;background:#f5f8f8;color:#173d3b}a{display:block;background:#167b72;color:white;text-align:center;padding:18px;border-radius:14px;text-decoration:none;margin:30px 0}p{line-height:1.7}.version{color:#647674;font-size:14px}</style><h1>AiO iPhone 설치</h1><p class="version">1.0.0 · 빌드 44</p><p>이 앱은 초대받은 사용자만 설치할 수 있습니다. 설치 파일은 비공개 저장소에 있으며, 초대받은 GitHub 계정으로 로그인해야 보입니다.</p><a href="https://github.com/NLPLee/app-releases/releases">비공개 저장소 열기</a><p>아이폰에 바로 설치하려면 관리자에게 설치 링크를 요청하세요. 링크는 발급 후 약 한 시간 동안만 열립니다.</p></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; connect-src 'none'">
+  <meta name="robots" content="noindex">
+  <title>AiO iPhone 설치</title>
+  <style>
+    :root { color-scheme: light dark; font: 17px/1.6 system-ui, sans-serif; background: #f6f7fa; color: #172637; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: max(24px, env(safe-area-inset-top)) 20px; }
+    main { max-width: 36rem; margin: min(12vh, 7rem) auto 0; padding: clamp(24px, 5vw, 52px); background: #fff; border: 1px solid #d5dce4; border-radius: 1rem; }
+    h1 { margin: 0; font-size: 2.2rem; line-height: 1.2; }
+    .version { margin: .45rem 0 2rem; color: #47576a; }
+    .button { display: inline-block; margin: .3rem 0; padding: .7rem 1.2rem; color: #fff; background: #167b72; border-radius: .6rem; border: 0; font: inherit; font-weight: 650; text-decoration: none; cursor: pointer; }
+    .secondary { display: inline-block; margin: .3rem .6rem; color: inherit; }
+    :focus-visible { outline: 3px solid #cc6b00; outline-offset: 3px; }
+    .note { font-size: .92rem; }
+    [hidden] { display: none !important; }
+    @media (prefers-color-scheme: dark) {
+      :root { background: #111923; color: #f4f7fb; } main { background: #1b2734; border-color: #3a4958; }
+      .version { color: #bccbdb; } .button { background: #a5d4ff; color: #0b253d; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>AiO iPhone 설치</h1>
+  <p class="version" id="platform">1.0.0 · 빌드 44</p>
+  <p id="status" role="status">비공개 릴리스는 초대받은 GitHub 계정으로 로그인하면 열 수 있습니다.</p>
+  <button id="install" type="button" class="button" hidden>아이폰에 설치</button>
+  <a id="reissue" class="button" rel="noreferrer" href="https://github.com/NLPLee/app-releases/issues/new?title=AiO%20%EC%84%A4%EC%B9%98%20%EB%A7%81%ED%81%AC%20%EC%9A%94%EC%B2%AD">설치 링크 요청</a>
+  <a id="release" class="secondary" rel="noreferrer" href="https://github.com/NLPLee/app-releases/releases?q=AiO">AiO 비공개 릴리스 열기</a>
+  <p class="note" id="help">위 요청 화면에서 미리 입력된 제목으로 이슈를 등록하면 해당 비공개 이슈에 설치 링크가 자동으로 달립니다. AiO 비서에게 “AiO 설치 링크 줘”라고 요청해도 됩니다.</p>
+</main>
+<script>
+(() => {
+  'use strict';
+  const hash = location.hash.slice(1);
+  if (!hash) return;
+  history.replaceState(null, '', location.pathname + location.search);
+  const fields = new URLSearchParams(hash);
+  const status = document.getElementById('status');
+  const install = document.getElementById('install');
+  const release = document.getElementById('release');
+  const help = document.getElementById('help');
+  const reissue = document.getElementById('reissue');
+  let deadline, target;
+
+  function showExpired() {
+    install.hidden = true;
+    release.hidden = false;
+    status.textContent = '설치 링크가 만료됐습니다. 새 설치 링크를 요청하세요.';
+    help.hidden = false;
+    reissue.hidden = false;
+  }
+
+  try {
+    if (fields.getAll('install').length !== 1 || hash.length > 12000) throw Error();
+    const url = new URL(fields.get('install'));
+    const prefix = /^\/github-production-release-asset\/1469863129\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (url.origin !== 'https://release-assets.githubusercontent.com' ||
+        url.username || url.password || url.hash || !prefix.test(url.pathname)) throw Error();
+    const filename = url.searchParams.get('response-content-disposition') || url.searchParams.get('rscd') || '';
+    const match = /(?:^|;\s*)filename=["']?aio-([1-9][0-9]{0,9})-[a-z0-9-]+\.plist["']?$/i.exec(filename);
+    if (!match || !url.searchParams.get('sig')) throw Error();
+    const buildLabel = '1.0.0 · 빌드 44 · 설치 빌드 ' + match[1];
+    const limits = [];
+    const signedExpiry = url.searchParams.get('se');
+    if (signedExpiry) limits.push(Date.parse(signedExpiry));
+    const jwt = url.searchParams.get('jwt');
+    if (jwt) {
+      const parts = jwt.split('.');
+      if (parts.length !== 3) throw Error();
+      const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+      if (!Number.isSafeInteger(payload.exp)) throw Error();
+      limits.push(payload.exp * 1000);
+    }
+    if (!limits.length) throw Error();
+    // The IPA's signed URL may expire before the manifest's URL.
+    if (fields.has('expires')) {
+      const expiry = fields.get('expires');
+      if (!/^\d{10}$/.test(expiry)) throw Error();
+      limits.push(Number(expiry) * 1000);
+    }
+    deadline = Math.min(...limits);
+    if (!Number.isFinite(deadline)) throw Error();
+    if (Date.now() >= deadline) { showExpired(); return; }
+    document.getElementById('platform').textContent = buildLabel;
+    target = 'itms-services://?action=download-manifest&url=' + encodeURIComponent(url.href);
+  } catch {
+    status.textContent = '설치 링크를 확인할 수 없습니다. 새 설치 링크를 요청하세요.';
+    return;
+  }
+
+  const time = new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', month: 'long', day: 'numeric',
+    hour: 'numeric', minute: '2-digit', second: '2-digit' }).format(deadline);
+  status.textContent = 'Safari에서 설치를 눌러주세요. 링크는 한국시간 ' + time + '까지 사용할 수 있습니다.';
+  release.hidden = true;
+  reissue.hidden = true;
+  help.hidden = true;
+  install.hidden = false;
+  install.addEventListener('click', () => {
+    if (Date.now() >= deadline) { showExpired(); return; }
+    location.assign(target);
+  });
+  setTimeout(showExpired, Math.min(deadline - Date.now(), 2147483647));
+})();
+</script>
+</body>
+</html>
