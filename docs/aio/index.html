@@ -28,7 +28,7 @@
 <body>
 <main>
   <h1>AiO iPhone 설치</h1>
-  <p class="version" id="platform">1.0.0 · 빌드 45</p>
+  <p class="version" id="platform">1.0.0 · 빌드 46</p>
   <p id="status" role="status">비공개 릴리스는 초대받은 GitHub 계정으로 로그인하면 열 수 있습니다.</p>
   <button id="install" type="button" class="button" hidden>아이폰에 설치</button>
   <a id="reissue" class="button" rel="noreferrer" href="https://github.com/NLPLee/app-releases/issues/new?title=AiO%20%EC%84%A4%EC%B9%98%20%EB%A7%81%ED%81%AC%20%EC%9A%94%EC%B2%AD">설치 링크 요청</a>
@@ -66,7 +66,7 @@
     const filename = url.searchParams.get('response-content-disposition') || url.searchParams.get('rscd') || '';
     const match = /(?:^|;\s*)filename=["']?aio-([1-9][0-9]{0,9})-[a-z0-9-]+\.plist["']?$/i.exec(filename);
     if (!match || !url.searchParams.get('sig')) throw Error();
-    const buildLabel = '1.0.0 · 빌드 45 · 설치 빌드 ' + match[1];
+    const buildLabel = '1.0.0 · 빌드 46 · 설치 빌드 ' + match[1];
     const limits = [];
     const signedExpiry = url.searchParams.get('se');
     if (signedExpiry) limits.push(Date.parse(signedExpiry));
